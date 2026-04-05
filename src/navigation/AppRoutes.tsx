@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import DashboardScreen from '../screens/Dashboard';
@@ -11,23 +12,42 @@ import { AppStackParamList } from '../types/navigation';
 import { ROUTES } from '../constants/routes';
 import AppLogo from '../components/ui/AppLogo';
 
+import { useAuth } from '../hooks/useAuth';
+
 import {
-  LayoutDashboard, 
+  LayoutDashboard,
   Package,
   Plus,
-  Receipt, 
+  Receipt,
   BarChart3
 } from 'lucide-react-native';
 
 const Stack = createBottomTabNavigator<AppStackParamList>();
 
 export default function AppRoutes() {
+
+  const { logout } = useAuth();
+
   return (
     <Stack.Navigator
       initialRouteName={ROUTES.DASHBOARD}
       screenOptions={{
         headerTitle: () => <AppLogo />,
         headerTitleAlign: "left",
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={logout}
+            style={{
+              backgroundColor: '#d11a2a',
+              padding: 10,
+              borderRadius: 10,
+            }}
+          >
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 10 }}>
+              Sair
+            </Text>
+          </TouchableOpacity>
+        ),
         //headerRight: () =>{} <- Colocar um ícone de sistema de notificação
 
         //Personalização
@@ -52,24 +72,24 @@ export default function AppRoutes() {
       <Stack.Screen
         name={ROUTES.ESTOQUE}
         component={EstoqueScreen}
-        options={{ title: 'Estoque', tabBarIcon: ({ color, size }) => <Package color={color} size={size} />}}
+        options={{ title: 'Estoque', tabBarIcon: ({ color, size }) => <Package color={color} size={size} /> }}
       />
 
-        <Stack.Screen
+      <Stack.Screen
         name={ROUTES.NOVA_VENDA}
         component={NovaVendaScreen}
-        options={{ title: 'Nova venda', tabBarIcon: ({ color, size }) => <Plus color={color} size={size} />}}
+        options={{ title: 'Nova venda', tabBarIcon: ({ color, size }) => <Plus color={color} size={size} /> }}
       />
-      
+
       <Stack.Screen
         name={ROUTES.CONTAS}
         component={ContasScreen}
-        options={{ title: 'Contas', tabBarIcon: ({ color, size }) => <Receipt color={color} size={size} />}}
+        options={{ title: 'Contas', tabBarIcon: ({ color, size }) => <Receipt color={color} size={size} /> }}
       />
       <Stack.Screen
         name={ROUTES.RELATORIOS}
         component={RelatoriosScreen}
-        options={{ title: 'Relatórios', tabBarIcon: ({ color, size }) => <BarChart3 color={color} size={size} />}}
+        options={{ title: 'Relatórios', tabBarIcon: ({ color, size }) => <BarChart3 color={color} size={size} /> }}
       />
     </Stack.Navigator>
   );

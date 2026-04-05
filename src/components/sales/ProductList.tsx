@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import { Product } from '../../types/sales';
+import { Product } from '../../types/products';
 
 type ProductListProps = {
   search: string;

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { Client } from '../../types/sales';
+import { Client } from '../../types/clients';
 
 type ClientSelectorProps = {
   search: string;

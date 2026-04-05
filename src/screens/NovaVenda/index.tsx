@@ -1,5 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { 
+  useCallback, 
+  useEffect, 
+  useMemo, 
+  useState
+} from 'react';
+
 import {
   View,
   Text,
@@ -19,16 +24,18 @@ import { ClientSelector } from '../../components/sales/ClientSelector';
 import { SaleSummary } from '../../components/sales/SaleSummary';
 
 import {
-  Product,
-  Client,
   CartItem,
   SaleType,
   PaymentMethod,
 } from '../../types/sales';
+import { Product } from '../../types/products';
+import { Client } from '../../types/clients';
 
 import { productsRepository } from '../../database/repositories/productsRepository';
 import { clientsRepository } from '../../database/repositories/clientsRepository';
 import { salesService } from '../../services/sales/salesService';
+
+import AppPlusButton from '../../components/ui/AppPlusButton';
 
 export default function NovaVendaScreen() {
   const [productSearch, setProductSearch] = useState('');
@@ -115,10 +122,10 @@ export default function NovaVendaScreen() {
         return prev.map((item) =>
           item.productId === product.id
             ? {
-                ...item,
-                quantidade: item.quantidade + 1,
-                subtotal: Number(((item.quantidade + 1) * item.preco).toFixed(2)),
-              }
+              ...item,
+              quantidade: item.quantidade + 1,
+              subtotal: Number(((item.quantidade + 1) * item.preco).toFixed(2)),
+            }
             : item
         );
       }
@@ -155,10 +162,10 @@ export default function NovaVendaScreen() {
       prev.map((item) =>
         item.productId === productId
           ? {
-              ...item,
-              quantidade: item.quantidade + 1,
-              subtotal: Number(((item.quantidade + 1) * item.preco).toFixed(2)),
-            }
+            ...item,
+            quantidade: item.quantidade + 1,
+            subtotal: Number(((item.quantidade + 1) * item.preco).toFixed(2)),
+          }
           : item
       )
     );
@@ -170,10 +177,10 @@ export default function NovaVendaScreen() {
         .map((item) =>
           item.productId === productId
             ? {
-                ...item,
-                quantidade: item.quantidade - 1,
-                subtotal: Number(((item.quantidade - 1) * item.preco).toFixed(2)),
-              }
+              ...item,
+              quantidade: item.quantidade - 1,
+              subtotal: Number(((item.quantidade - 1) * item.preco).toFixed(2)),
+            }
             : item
         )
         .filter((item) => item.quantidade > 0)
@@ -330,7 +337,12 @@ export default function NovaVendaScreen() {
 
             {saleType === 'conta' && (
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Cliente</Text>
+
+                <View style={styles.sectionview}>
+                  <Text style={styles.sectionTitle}>Cliente</Text>
+                  <AppPlusButton/>
+                </View>
+
                 <ClientSelector
                   search={clientSearch}
                   onChangeSearch={setClientSearch}
@@ -428,4 +440,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#6B7280',
   },
+  sectionview: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
 });

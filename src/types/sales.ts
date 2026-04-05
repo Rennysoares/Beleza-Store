@@ -1,27 +1,6 @@
 export type SaleType = 'vista' | 'conta';
 export type PaymentMethod = 'pix' | 'dinheiro' | 'cartao';
 
-export type Product = {
-  id: number;
-  nome: string;
-  preco: number;
-  quantidade: number;
-  estoque_minimo: number;
-};
-
-export type Client = {
-  id: number;
-  nome: string;
-  telefone?: string | null;
-};
-
-export type Account = {
-  id: number;
-  cliente_id: number;
-  saldo_devedor: number;
-  status: 'aberta' | 'fechada';
-};
-
 export type CartItem = {
   productId: number;
   nome: string;

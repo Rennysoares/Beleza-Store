@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 export default function Relatorios() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Tela Relatorio</Text>
+      <Text>Em desenvolvimento</Text>
     </View>
   );
 }

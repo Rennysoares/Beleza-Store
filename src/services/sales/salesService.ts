@@ -7,8 +7,8 @@ import {
   CreateSaleInput,
   CreateSaleResult,
   CartItem,
-  Product
 } from '../../types/sales';
+import { Product } from '../../types/products';
 
 function normalizeCartItems(itens: CartItem[]): CartItem[] {
   return itens.map((item) => ({
