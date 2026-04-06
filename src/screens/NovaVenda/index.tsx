@@ -1,7 +1,7 @@
-import { 
-  useCallback, 
-  useEffect, 
-  useMemo, 
+import {
+  useCallback,
+  useEffect,
+  useMemo,
   useState
 } from 'react';
 
@@ -207,6 +207,20 @@ export default function NovaVendaScreen() {
     }
   }
 
+  function handleCreateClient(data: { nome: string; telefone?: string | null }) {
+    const newClientId = clientsRepository.create({
+      nome: data.nome,
+      telefone: data.telefone ?? null,
+    });
+
+    const updatedClients = clientsRepository.getAll();
+    setClients(updatedClients);
+
+    setSelectedClientId(newClientId);
+
+    return newClientId;
+  }
+
   function validateSale() {
     if (cart.length === 0) {
       Alert.alert('Carrinho vazio', 'Adicione pelo menos um produto à venda.');
@@ -340,7 +354,6 @@ export default function NovaVendaScreen() {
 
                 <View style={styles.sectionview}>
                   <Text style={styles.sectionTitle}>Cliente</Text>
-                  <AppPlusButton/>
                 </View>
 
                 <ClientSelector
@@ -349,6 +362,7 @@ export default function NovaVendaScreen() {
                   clients={filteredClients}
                   selectedClientId={selectedClientId}
                   onSelectClient={setSelectedClientId}
+                  onCreateClient={handleCreateClient}
                 />
               </View>
             )}

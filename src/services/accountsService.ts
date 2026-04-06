@@ -7,7 +7,6 @@ import { salesRepository } from '../database/repositories/salesRepository';
 
 import { Client } from '../types/clients';
 import { Account } from '../types/accounts';
-import { Payment } from '../types/payments';
 
 export type StatementItem = {
   type: 'sale' | 'payment';
@@ -210,7 +209,7 @@ export const accountsService = {
     
     const formattedSales: StatementItem[] = sales.map((sale: any) => ({
       type: 'sale',
-      id: sale.idvenda,
+      id: sale.id,
       date: sale.data,
       value: Number(sale.valor_total),
       description: 'Venda lançada na conta',
@@ -218,7 +217,7 @@ export const accountsService = {
 
     const formattedPayments: StatementItem[] = payments.map((payment: any) => ({
       type: 'payment',
-      id: payment.idpagamento,
+      id: payment.id,
       date: payment.data_pagamento,
       value: Number(payment.valor_pago),
       description: 'Pagamento realizado',

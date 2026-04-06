@@ -20,10 +20,10 @@ export default function App() {
   //console.log('Produtos:', products);
 
   //console.log('Vendas:', salesRepository.getAllSales());
-  console.log('Contas:', accountsRepository.getAll());
-  //console.log('Clientes:', clientsRepository.getAll());
+  //console.log('Contas:', accountsRepository.getAll());
+  console.log('Clientes:', clientsRepository.getAll());
   //console.log('Produtos:', productsRepository.getAll());
-  console.log('Pagamentos: ', paymentsRepository.getAll());
+  //console.log('Pagamentos: ', paymentsRepository.getAll());
 
   //console.log('Cliente:', clientsRepository.getByName('Eduardo'));
   //console.log('Conta aberta:', accountsRepository.getOpenByClientId(1));
