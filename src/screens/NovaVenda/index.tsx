@@ -2,7 +2,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useState
+  useState,
 } from 'react';
 
 import {
@@ -15,6 +15,8 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
+
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { ProductList } from '../../components/sales/ProductList';
 import { CartList } from '../../components/sales/CartList';
@@ -283,6 +285,12 @@ export default function NovaVendaScreen() {
       setLoading(false);
     }
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      loadInitialData();
+    }, [])
+  );
 
   if (loadingData) {
     return (

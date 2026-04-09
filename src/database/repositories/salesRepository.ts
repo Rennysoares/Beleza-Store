@@ -91,5 +91,20 @@ export const salesRepository = {
     WHERE conta_id = ?
     ORDER BY data DESC
   `, [accountId]);
+  },
+
+  /**
+   * Verificar se foi feita alguma venda de um determinado produto
+   * @param productId Identificador do produto cadastrado
+   * @returns Booleano que diz se foi feito ou não
+   */
+  hasSales(productId: number): boolean {
+    const result = getFirst<{ total: number }>(`
+    SELECT COUNT(*) as total
+    FROM itens_venda
+    WHERE produto_id = ?
+  `, [productId]);
+
+    return (result?.total ?? 0) > 0;
   }
 };

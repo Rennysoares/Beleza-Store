@@ -180,7 +180,7 @@ export default function Contas() {
 
                     <View style={{ display: 'flex', flexDirection: 'row', gap: 12 }}>
                         <TouchableOpacity
-                            onPress={() => { handleOpenAccount(item.id)}}
+                            onPress={() => { handleOpenAccount(item.id) }}
                         >
                             <View style={styles.detailsButton}>
                                 <Eye color={'#555'} size={16} />
@@ -213,7 +213,7 @@ export default function Contas() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Contas</Text>
-
+            <Text style={styles.subtitle}>Gerencie seu catálogo de produtos</Text>
             <FlatList
                 data={accounts}
                 keyExtractor={(item) => String(item.id)}
@@ -246,7 +246,7 @@ export default function Contas() {
                         <Text style={styles.modalTitle}>Detalhes da conta</Text>
 
                         <View style={styles.modalHeader}>
-                            <AppIconProfile firstLetter={'F'} />
+                            <AppIconProfile firstLetter={detailsAccount?.client?.nome?.charAt(0) || '?'} />
                             <View>
                                 <Text style={styles.clientName}>{detailsAccount?.client?.nome || 'Nome do cliente não disponível'}</Text>
                                 <Text style={styles.phone}>{detailsAccount?.client?.telefone || 'Telefone do cliente não disponível'}</Text>
@@ -285,7 +285,7 @@ export default function Contas() {
                 transparent={true}
             >
                 <View style={styles.centeredModal}>
-                    <RegisterPaymentScreen 
+                    <RegisterPaymentScreen
                         accountId={detailsAccount?.account?.id}
                         setModalReceivingVisible={setModalReceivingVisible}
                         refreshAccounts={loadAccounts}
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: '#fff',
+        backgroundColor: '#F7F8FA',
     },
     centeredLoading: {
         flex: 1,
@@ -323,16 +323,25 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: '700',
-        marginBottom: 16,
+        color: '#1F2937',
+    },
+    subtitle: {
+        marginTop: 4,
+        fontSize: 15,
+        color: '#6B7280',
     },
     listContent: {
         paddingBottom: 24,
     },
     card: {
-        backgroundColor: '#f7f7f7',
+        backgroundColor: '#FFF',
         borderRadius: 12,
         padding: 16,
         marginBottom: 12,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
     },
     cardHeader: {
         marginBottom: 8,
@@ -391,7 +400,7 @@ const styles = StyleSheet.create({
         lineHeight: 22,
     },
     detailsButton: {
-        backgroundColor: '#fff',
+        backgroundColor: '#eaeaea',
         borderRadius: 8,
         borderColor: '#555',
         padding: 5,
