@@ -22,3 +22,11 @@ export function formatDateTime(dateString: string): string {
     timeStyle: "short",
   });
 }
+
+export function getCurrentDateTime() {
+  const now = new Date();
+
+  now.setHours(23, 59, 59, 0);
+
+  return now.toISOString();
+}

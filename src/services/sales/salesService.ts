@@ -3,6 +3,8 @@ import { productsRepository } from '../../database/repositories/productsReposito
 import { clientsRepository } from '../../database/repositories/clientsRepository';
 import { accountsRepository } from '../../database/repositories/accountsRepository';
 import { salesRepository } from '../../database/repositories/salesRepository';
+import { itemsSaleRepository } from '../../database/repositories/itemsSaleRepository';
+
 import {
   CreateSaleInput,
   CreateSaleResult,
@@ -116,7 +118,7 @@ export const salesService = {
       });
 
       normalizedItems.forEach((item) => {
-        salesRepository.createSaleItem(vendaId, item);
+        itemsSaleRepository.createSaleItem(vendaId, item);
 
         const produto = produtosDoCarrinhoMap.get(item.productId);
 

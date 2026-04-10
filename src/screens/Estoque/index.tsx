@@ -24,6 +24,7 @@ import { productsRepository } from '../../database/repositories/productsReposito
 import { StockList } from '../../components/stock/StockList';
 import { FormProduct } from '../../components/stock/FormProduct';
 import { salesRepository } from '../../database/repositories/salesRepository';
+import { itemsSaleRepository } from '../../database/repositories/itemsSaleRepository';
 import { AddStock } from '../../components/stock/AddStock';
 export default function Estoque() {
 
@@ -83,7 +84,7 @@ export default function Estoque() {
 
   function handleDelete(productId: number) {
     try {
-      const hasSales = salesRepository.hasSales(productId)
+      const hasSales = itemsSaleRepository.hasSales(productId)
       if (hasSales) {
         Alert.alert('Erro', 'O produto não pode ser excluído pois foi feita alguma venda e precisa manter registro');
         return

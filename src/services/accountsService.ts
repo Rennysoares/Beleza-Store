@@ -3,10 +3,10 @@ import { accountsRepository } from '../database/repositories/accountsRepository'
 import { paymentsRepository } from '../database/repositories/paymentsRepository';
 // opcional agora, mas importante para o extrato:
 import { salesRepository } from '../database/repositories/salesRepository';
-
-
 import { Client } from '../types/clients';
 import { Account } from '../types/accounts';
+
+import { getCurrentDateTime } from '../utils/date';
 
 export type StatementItem = {
   type: 'sale' | 'payment';
@@ -37,7 +37,7 @@ type AddSaleToAccountInput = {
 ========================= */
 
 function getTodayDate(): string {
-  return new Date().toISOString().split('T')[0];
+  return getCurrentDateTime();
 }
 
 function normalizeName(name: string): string {
