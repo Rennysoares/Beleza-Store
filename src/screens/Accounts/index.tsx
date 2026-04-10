@@ -38,7 +38,7 @@ type AccountDetails = {
     statement: StatementItem[];
 }
 
-export default function Contas() {
+export default function Accounts() {
     //const navigation = useNavigation<any>();
 
     const [accounts, setAccounts] = useState<AccountListItem[]>([]);

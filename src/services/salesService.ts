@@ -1,16 +1,16 @@
-import { db } from '../../database/db';
-import { productsRepository } from '../../database/repositories/productsRepository';
-import { clientsRepository } from '../../database/repositories/clientsRepository';
-import { accountsRepository } from '../../database/repositories/accountsRepository';
-import { salesRepository } from '../../database/repositories/salesRepository';
-import { itemsSaleRepository } from '../../database/repositories/itemsSaleRepository';
+import { db } from '../database/db';
+import { productsRepository } from '../database/repositories/productsRepository';
+import { clientsRepository } from '../database/repositories/clientsRepository';
+import { accountsRepository } from '../database/repositories/accountsRepository';
+import { salesRepository } from '../database/repositories/salesRepository';
+import { itemsSaleRepository } from '../database/repositories/itemsSaleRepository';
 
 import {
   CreateSaleInput,
   CreateSaleResult,
   CartItem,
-} from '../../types/sales';
-import { Product } from '../../types/products';
+} from '../types/sales';
+import { Product } from '../types/products';
 
 function normalizeCartItems(itens: CartItem[]): CartItem[] {
   return itens.map((item) => ({

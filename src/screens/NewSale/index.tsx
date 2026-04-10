@@ -35,11 +35,11 @@ import { Client } from '../../types/clients';
 
 import { productsRepository } from '../../database/repositories/productsRepository';
 import { clientsRepository } from '../../database/repositories/clientsRepository';
-import { salesService } from '../../services/sales/salesService';
+import { salesService } from '../../services/salesService';
 
 import AppPlusButton from '../../components/ui/AppPlusButton';
 
-export default function NovaVendaScreen() {
+export default function NewSale() {
   const [productSearch, setProductSearch] = useState('');
   const [clientSearch, setClientSearch] = useState('');
 

@@ -26,7 +26,7 @@ import { FormProduct } from '../../components/stock/FormProduct';
 import { salesRepository } from '../../database/repositories/salesRepository';
 import { itemsSaleRepository } from '../../database/repositories/itemsSaleRepository';
 import { AddStock } from '../../components/stock/AddStock';
-export default function Estoque() {
+export default function Stock() {
 
   const [productSearch, setProductSearch] = useState('');
   const [loadingData, setLoadingData] = useState(false);

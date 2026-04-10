@@ -4,8 +4,8 @@ export type AuthStackParamList = {
 
 export type AppStackParamList = {
   Dashboard: undefined;
-  Estoque: undefined;
-  NovaVenda: undefined;
-  Contas: undefined;
-  Relatorios: undefined;
+  Stock: undefined;
+  NewSale: undefined;
+  Accounts: undefined;
+  Reports: undefined;
 };

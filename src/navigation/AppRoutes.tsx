@@ -3,10 +3,10 @@ import { TouchableOpacity, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import DashboardScreen from '../screens/Dashboard';
-import EstoqueScreen from '../screens/Estoque';
-import NovaVendaScreen from '../screens/NovaVenda';
-import ContasScreen from '../screens/Contas';
-import RelatoriosScreen from '../screens/Relatorios';
+import StockScreen from '../screens/Stock';
+import NewSaleScreen from '../screens/NewSale';
+import AccountsScreen from '../screens/Accounts';
+import ReportsScreen from '../screens/Reports';
 
 import { AppStackParamList } from '../types/navigation';
 import { ROUTES } from '../constants/routes';
@@ -70,25 +70,25 @@ export default function AppRoutes() {
         options={{ title: 'Início', tabBarIcon: ({ color, size }) => <LayoutDashboard color={color} size={size} /> }}
       />
       <Stack.Screen
-        name={ROUTES.ESTOQUE}
-        component={EstoqueScreen}
+        name={ROUTES.STOCK}
+        component={StockScreen}
         options={{ title: 'Estoque', tabBarIcon: ({ color, size }) => <Package color={color} size={size} /> }}
       />
 
       <Stack.Screen
-        name={ROUTES.NOVA_VENDA}
-        component={NovaVendaScreen}
+        name={ROUTES.NEW_SALE}
+        component={NewSaleScreen}
         options={{ title: 'Nova venda', tabBarIcon: ({ color, size }) => <Plus color={color} size={size} /> }}
       />
 
       <Stack.Screen
-        name={ROUTES.CONTAS}
-        component={ContasScreen}
+        name={ROUTES.ACCOUNTS}
+        component={AccountsScreen}
         options={{ title: 'Contas', tabBarIcon: ({ color, size }) => <Receipt color={color} size={size} /> }}
       />
       <Stack.Screen
-        name={ROUTES.RELATORIOS}
-        component={RelatoriosScreen}
+        name={ROUTES.REPORTS}
+        component={ReportsScreen}
         options={{ title: 'Relatórios', tabBarIcon: ({ color, size }) => <BarChart3 color={color} size={size} /> }}
       />
     </Stack.Navigator>

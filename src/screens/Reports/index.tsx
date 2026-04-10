@@ -34,7 +34,7 @@ import {
 
 import { getDateRange, PeriodFilter as PeriodType } from '../../utils/reportDateUtils';
 import { theme } from '../../theme/theme';
-export default function Relatorios() {
+export default function Reports() {
 
   const [period, setPeriod] = useState<PeriodType>('month');
 

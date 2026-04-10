@@ -1,12 +1,17 @@
 export const ROUTES = {
-  //Rota de Autenticação
+  
+  /**
+   * Login/Auth routes
+   */
   LOGIN: 'Login',
 
-  //Rota de Gerenciamento
+  /**
+   * App Routes
+   */
   DASHBOARD: 'Dashboard',
-  ESTOQUE: 'Estoque', 
-  NOVA_VENDA: 'NovaVenda',
-  CONTAS: 'Contas',
-  RELATORIOS: 'Relatorios'
+  STOCK: 'Stock', 
+  NEW_SALE: 'NewSale',
+  ACCOUNTS: 'Accounts',
+  REPORTS: 'Reports'
 
 } as const;
