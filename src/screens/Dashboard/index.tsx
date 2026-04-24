@@ -1,60 +1,132 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Alert, View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity
+} from 'react-native';
+
 import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import { loadDashboardData } from '../../services/dashboardService';
+import { ROUTES } from '../../constants/routes';
 
-import { RecentSales } from '../../components/dashboard/RecentSales';
-import { salesRepository } from '../../database/repositories/salesRepository';
-
-import { Sale } from '../../types/sales';
-import { Client } from '../../types/clients';
-import { Product } from '../../types/products';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppStackParamList } from '../../types/navigation';
 
 export default function Dashboard() {
 
-  //const [products, setProducts] = useState<Product[]>([]);
-  //const [clients, setClients] = useState<Client[]>([]);
-  const [sales, setSales] = useState<Sale[]>([]);
+  type NavigationProps = NativeStackNavigationProp<AppStackParamList>;
 
-  const [loading, setLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(true);
+  const navigation = useNavigation<NavigationProps>();
 
-  const loadInitialData = useCallback(() => {
-    try {
-      setLoadingData(true);
-
-      //const productsData = productsRepository.getAll();
-      //const clientsData = clientsRepository.getAll();
-      const salesData = salesRepository.getAllSales();
-
-      //setProducts(productsData);
-      //setClients(clientsData);
-      setSales(salesData);
-
-    } catch (error) {
-      console.error('Erro ao carregar dados da venda:', error);
-      Alert.alert('Erro', 'Não foi possível carregar os dados da venda.');
-    } finally {
-      setLoadingData(false);
-    }
-  }, []);
-
+  const [data, setData] = useState<any>(null);
   useFocusEffect(
     useCallback(() => {
-      loadInitialData();
-    }, [loadInitialData])
+      const result = loadDashboardData();
+      setData(result);
+    }, [])
   );
 
-  if (loadingData) {
-      return (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#111827" />
-          <Text style={styles.loadingText}>Carregando dados</Text>
-        </View>
-      );
-    }
+  if (!data) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
+
+  const formatCurrency = (value: number) =>
+    `R$ ${value.toFixed(2)}`;
+
   return (
-    <View style={styles.container}>
-      <RecentSales sales={sales} />
+    <View style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+
+        {/* 👋 Header */}
+        <Text style={styles.header}>Olá 👋</Text>
+        <Text style={styles.subHeader}>Resumo de hoje</Text>
+
+        {/* 💰 SALDO (DESTAQUE PRINCIPAL) */}
+        <View style={styles.balanceCard}>
+          <Text style={styles.balanceLabel}>Saldo de hoje</Text>
+          <Text style={styles.balanceValue}>
+            {formatCurrency(data.saldoHoje)}
+          </Text>
+        </View>
+
+        {/* 📊 Entradas / Saídas */}
+        <View style={styles.row}>
+          <View style={[styles.smallCard, styles.greenCard]}>
+            <Text style={styles.cardLabel}>Entradas</Text>
+            <Text style={styles.cardValue}>
+              {formatCurrency(data.entradasHoje)}
+            </Text>
+          </View>
+
+          <View style={[styles.smallCard, styles.redCard]}>
+            <Text style={styles.cardLabel}>Saídas</Text>
+            <Text style={styles.cardValue}>
+              {formatCurrency(data.saidasHoje)}
+            </Text>
+          </View>
+        </View>
+
+        {/* 💵 Lucro do mês */}
+        <View style={styles.card}>
+          <Text style={styles.cardLabel}>Lucro do mês</Text>
+          <Text style={styles.highlightValue}>
+            {formatCurrency(data.lucroMes)}
+          </Text>
+        </View>
+
+        {/* 📦 Estoque baixo */}
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>⚠️ Estoque baixo</Text>
+
+          {data.estoqueBaixo.length === 0 ? (
+            <Text style={styles.emptyText}>Tudo ok por aqui 👌</Text>
+          ) : (
+            data.estoqueBaixo.map((item: any) => (
+              <View key={item.id} style={styles.listItem}>
+                <Text>{item.nome}</Text>
+                <Text style={styles.badge}>{item.quantidade}</Text>
+              </View>
+            ))
+          )}
+        </View>
+
+        {/* 🧾 Contas */}
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Contas pendentes</Text>
+
+          <Text style={styles.text}>
+            {data.contasPendentes.total} contas abertas
+          </Text>
+
+          <Text style={styles.highlightValue}>
+            {formatCurrency(data.contasPendentes.valor)}
+          </Text>
+        </View>
+
+        {/* ⚡ Ações rápidas */}
+        <View style={styles.row}>
+          <TouchableOpacity style={[styles.actionButton, styles.greenBtn]}
+            onPress={() => { navigation.navigate(ROUTES.NEW_SALE) }}
+          >
+            <Text style={styles.actionText}>+ Venda</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actionButton, styles.grayBtn]}
+            onPress={() => { navigation.navigate(ROUTES.NEW_EXPENSE) }}
+          >
+            <Text style={styles.actionText}>+ Despesa</Text>
+          </TouchableOpacity>
+        </View>
+
+      </ScrollView>
     </View>
   );
 }
@@ -62,18 +134,124 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24
+    padding: 16,
+    backgroundColor: '#f2f4f7'
   },
-  loadingContainer: {
+
+  header: {
+    fontSize: 26,
+    fontWeight: 'bold'
+  },
+
+  subHeader: {
+    color: '#777',
+    marginBottom: 20
+  },
+
+  balanceCard: {
+    backgroundColor: '#111',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20
+  },
+
+  balanceLabel: {
+    color: '#aaa',
+    marginBottom: 5
+  },
+
+  balanceValue: {
+    color: '#fff',
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+
+  row: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 15
+  },
+
+  smallCard: {
     flex: 1,
-    backgroundColor: '#F7F8FA',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 24,
+    borderRadius: 12,
+    padding: 15
   },
-  loadingText: {
-    marginTop: 12,
-    fontSize: 15,
-    color: '#6B7280',
+
+  greenCard: {
+    backgroundColor: '#e8f5e9'
   },
-})
+
+  redCard: {
+    backgroundColor: '#ffebee'
+  },
+
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 20,
+    marginBottom: 15
+  },
+
+  cardLabel: {
+    color: '#666',
+    fontSize: 13
+  },
+
+  cardValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 5
+  },
+
+  highlightValue: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 10
+  },
+
+  sectionTitle: {
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+
+  text: {
+    fontSize: 14
+  },
+
+  emptyText: {
+    color: '#888'
+  },
+
+  listItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8
+  },
+
+  badge: {
+    backgroundColor: '#ddd',
+    paddingHorizontal: 10,
+    borderRadius: 8
+  },
+
+  actionButton: {
+    flex: 1,
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center'
+  },
+
+  greenBtn: {
+    backgroundColor: '#4CAF50'
+  },
+
+  grayBtn: {
+    backgroundColor: '#555'
+  },
+
+  actionText: {
+    color: '#fff',
+    fontWeight: 'bold'
+  }
+});

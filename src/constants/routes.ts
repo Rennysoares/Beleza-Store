@@ -12,6 +12,7 @@ export const ROUTES = {
   STOCK: 'Stock', 
   NEW_SALE: 'NewSale',
   ACCOUNTS: 'Accounts',
-  REPORTS: 'Reports'
+  REPORTS: 'Reports',
+  NEW_EXPENSE: 'NewExpense',
 
 } as const;

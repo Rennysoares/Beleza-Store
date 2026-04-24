@@ -7,6 +7,7 @@ import StockScreen from '../screens/Stock';
 import NewSaleScreen from '../screens/NewSale';
 import AccountsScreen from '../screens/Accounts';
 import ReportsScreen from '../screens/Reports';
+import NewExpenseScreen from '../screens/NewExpense';
 
 import { AppStackParamList } from '../types/navigation';
 import { ROUTES } from '../constants/routes';
@@ -19,7 +20,8 @@ import {
   Package,
   Plus,
   Receipt,
-  BarChart3
+  BarChart3,
+  Minus
 } from 'lucide-react-native';
 
 const Stack = createBottomTabNavigator<AppStackParamList>();
@@ -90,6 +92,11 @@ export default function AppRoutes() {
         name={ROUTES.REPORTS}
         component={ReportsScreen}
         options={{ title: 'Relatórios', tabBarIcon: ({ color, size }) => <BarChart3 color={color} size={size} /> }}
+      />
+      <Stack.Screen
+        name={ROUTES.NEW_EXPENSE}
+        component={NewExpenseScreen}
+        options={{ title: 'Nova Despesa', tabBarIcon: ({ color, size }) => <Minus color={color} size={size} /> }}
       />
     </Stack.Navigator>
   );

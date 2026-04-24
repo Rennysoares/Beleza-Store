@@ -8,4 +8,5 @@ export type AppStackParamList = {
   NewSale: undefined;
   Accounts: undefined;
   Reports: undefined;
+  NewExpense: undefined;
 };
