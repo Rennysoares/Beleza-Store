@@ -20,8 +20,8 @@ import { run } from "./src/database/db";
 export default function App() {
 
 
-  /*
-
+  
+/*
   const resetDatabase = () => {
     run('PRAGMA foreign_keys = OFF');
 

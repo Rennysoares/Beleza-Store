@@ -13,8 +13,9 @@ type ProductFormProps = {
 export function FormProduct({ mode, setIsModalVisible, initialData, onSuccess, }: ProductFormProps) {
 
     const isEditMode = mode === 'edit';
-
     const [loading, setLoading] = useState(false);
+
+    const [barcode, setBarcode] = useState(null)
 
     const [productName, setProductName] = useState(initialData?.nome ?? '');
     const [productPrice, setProductPrice] = useState(

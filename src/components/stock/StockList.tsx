@@ -21,18 +21,85 @@ export function StockList({
     onPressDeleteButton
 }: ProductListProps) {
 
-    //const [expandedProduct, setExpandedProduct] = useState(false);
+    const [expandedProduct, setExpandedProduct] = useState(false);
+    const [openedProductId, setOpenedProductId] = useState(null);
 
+    function RenderProduct({ product }: { product: Product }) {
+        return (
+            <View style={styles.productItem}>
+                <View style={styles.header}>
+                    <Text style={styles.nameProduct}>{product.nome}</Text>
+                    <Text>{getStockStatus(product)}</Text>
+                </View>
+                <View style={{marginBottom: 10}}>
+                    <View style={styles.priceProduct}>
+                        <Text style={{ color: '#6B7280', fontSize: 16 }}>Preço</Text>
+                        <Text style={{ color: '#0B0', fontSize: 16 }}>R$: {product.preco.toFixed(2)}</Text>
+                    </View>
+
+                    <View style={styles.stockQuantity}>
+                        <Text style={{ color: '#6B7280', fontSize: 16 }}>Estoque</Text>
+                        <Text style={{ color: '#6B7280', fontSize: 16 }}>{product.quantidade} unidades</Text>
+                    </View>
+
+                    <View style={styles.stockQuantity}>
+                        <Text style={{ color: '#6B7280', fontSize: 16 }}>Estoque Mínimo</Text>
+                        <Text style={{ color: '#6B7280', fontSize: 16 }}>{product.estoque_minimo} unidades</Text>
+                    </View>
+                </View>
+                {openedProductId === product.id && (
+                    <View style={styles.options}>
+                        <TouchableOpacity
+                            onPress={() => { onPressEditButton(product) }}
+                            style={{ flex: 2 }}
+                        >
+                            <View style={{ backgroundColor: "#FFF", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5, padding: 10, borderRadius: 5, borderColor: "#AAA", borderWidth: 1 }}>
+                                <Edit size={25} color="#000" />
+                                <Text>Editar</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => { onPressAddStockButton(product) }}
+                            style={{ flex: 2 }}
+                        >
+                            <View style={{ backgroundColor: "#FFF", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5, padding: 10, borderRadius: 5, borderColor: "#AAA", borderWidth: 1 }}>
+                                <Plus size={25} color="#000" />
+                                <Text>Adicionar</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => { onPressDeleteButton(product.id) }}
+                            style={{ flex: 1 }}
+                        >
+                            <View style={{ backgroundColor: "#FFF", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5, padding: 10, borderRadius: 5, borderColor: "#F00", borderWidth: 1 }}>
+                                <Trash2 size={25} color="#F00" />
+                                {/*<Text>Excluir</Text>*/}
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                )}
+                {/* Detalhes expandidos do produto */}
+                <View style={{ marginHorizontal: 'auto', marginTop: 5 }}>
+                    <TouchableOpacity
+                        onPress={() => setOpenedProductId(openedProductId === product.id ? null : product.id)}
+                    >
+                        {openedProductId === product.id ? <ChevronUp size={35} color="#000" /> : <ChevronDown size={35} color="#000" />}
+                        {/*<Text>{openedProductId === product.id ? "Fechar detalhes" : "Ver detalhes"}</Text>*/}
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
     function getStockStatus(product: Product) {
 
         if (product.quantidade === 0) {
             return (
-                <Text style={{color: "#A00"}}>Sem estoque</Text>
+                <Text style={{ color: "#A00" }}>Sem estoque</Text>
             );
         }
 
         if (product.quantidade <= product.estoque_minimo) {
-            return (<Text style={{color: "#AA0"}}>Baixo estoque</Text>)
+            return (<Text style={{ color: "#AA0" }}>Baixo estoque</Text>)
         }
 
 
@@ -62,67 +129,7 @@ export function StockList({
                         >
                             {
                                 products.map((product) => (
-                                    <View key={product.id} style={styles.productItem}>
-                                        <View style={styles.header}>
-                                            <Text style={styles.nameProduct}>{product.nome}</Text>
-                                            <Text>{getStockStatus(product)}</Text>
-                                        </View>
-                                        <View style={styles.priceProduct}>
-                                            <Text style={{ color: '#6B7280', fontSize: 16 }}>Preço</Text>
-                                            <Text style={{ color: '#0B0', fontSize: 16 }}>R$: {product.preco.toFixed(2)}</Text>
-                                        </View>
-
-                                        <View style={styles.stockQuantity}>
-                                            <Text style={{ color: '#6B7280', fontSize: 16 }}>Estoque</Text>
-                                            <Text style={{ color: '#6B7280', fontSize: 16 }}>{product.quantidade} unidades</Text>
-                                        </View>
-
-                                        <View style={styles.stockQuantity}>
-                                            <Text style={{ color: '#6B7280', fontSize: 16 }}>Estoque Mínimo</Text>
-                                            <Text style={{ color: '#6B7280', fontSize: 16 }}>{product.estoque_minimo} unidades</Text>
-                                        </View>
-
-                                        <View style={styles.options}>
-                                            <TouchableOpacity
-                                                onPress={() => { onPressEditButton(product) }}
-                                                style={{ flex: 2 }}
-                                            >
-                                                <View style={{ backgroundColor: "#FFF", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5, padding: 10, borderRadius: 5, borderColor: "#AAA", borderWidth: 1 }}>
-                                                    <Edit size={25} color="#000" />
-                                                    <Text>Editar</Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => { onPressAddStockButton(product) }}
-                                                style={{ flex: 2 }}
-                                            >
-                                                <View style={{ backgroundColor: "#FFF", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5, padding: 10, borderRadius: 5, borderColor: "#AAA", borderWidth: 1 }}>
-                                                    <Plus size={25} color="#000" />
-                                                    <Text>Adicionar</Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => { onPressDeleteButton(product.id) }}
-                                                style={{ flex: 1 }}
-                                            >
-                                                <View style={{ backgroundColor: "#FFF", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5, padding: 10, borderRadius: 5, borderColor: "#F00", borderWidth: 1 }}>
-                                                    <Trash2 size={25} color="#F00" />
-                                                    {/*<Text>Excluir</Text>*/}
-                                                </View>
-                                            </TouchableOpacity>
-                                        </View>
-
-                                        {/* Detalhes expandidos do produto */}
-
-                                        {//TODO: Implementar detalhes expandidos do produto
-                                            <TouchableOpacity
-                                            //onPress={() => setExpandedProduct(!expandedProduct)}
-                                            >
-                                                {/*<Text>{expandedProduct ? "Fechar detalhes" : "Ver detalhes"}</Text>*/}
-                                            </TouchableOpacity>
-                                        }
-
-                                    </View>
+                                    <RenderProduct key={product.id} product={product} />
                                 ))
                             }
                         </ScrollView>
@@ -177,7 +184,7 @@ const styles = StyleSheet.create({
     options: {
         flex: 1,
         flexDirection: "row",
-        gap: 5,
+        gap: 5
     },
     emptyState: {
         backgroundColor: '#F9FAFB',

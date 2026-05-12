@@ -6,9 +6,15 @@ import AuthRoutes from './AuthRoutes';
 import AppRoutes from './AppRoutes';
 import { useAuth } from '../hooks/useAuth';
 
+import LockScreen from '../screens/LockApp';
+
 export default function Routes() {
 
-  const {isAuthenticated, isLoading} = useAuth();
+  const {
+    isAuthenticated,
+    isLoading,
+    isLocked
+  } = useAuth();
 
   if (isLoading) {
     return (
@@ -20,7 +26,13 @@ export default function Routes() {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <AppRoutes /> : <AuthRoutes />}
+      {
+        !isAuthenticated
+          ? <AuthRoutes />
+          : isLocked
+            ? <LockScreen />
+            : <AppRoutes />
+      }
     </NavigationContainer>
   );
 }
